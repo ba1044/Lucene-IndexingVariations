@@ -1,6 +1,6 @@
-package edu.unh.cs.ranking;
+package edu.unh.cs.Assignment2.ranking;
 
-public class DocumentResult {
+
 	//Setter getter class for ranking  from previous coding
 	public class Documentresult {
 		private int docId;
@@ -26,7 +26,7 @@ public class DocumentResult {
 			this.score = s;
 		}
 
-		public void setRank(int r) {
+		public void setRank1(int r) {
 			this.rank = r;
 		}
 		
@@ -39,6 +39,10 @@ public class DocumentResult {
 		}
 
 
+
+	public void setRank(int rankCount) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

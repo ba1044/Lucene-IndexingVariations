@@ -1,4 +1,4 @@
-package edu.unh.cs980.Assignment2.Entitylinking;
+package edu.unh.cs.Assignment2.Entitylinking;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

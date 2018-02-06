@@ -1,4 +1,8 @@
-package edu.unh.cs.ranking;
+//Bigram Language Model with Laplace smoothing( From Previous code)
+/* 
+ * Author: Bindu,Austin,Kaixin
+ */
+package edu.unh.cs.Assignment2.ranking;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -36,6 +40,8 @@ import org.apache.lucene.search.similarities.BasicStats;
 import org.apache.lucene.search.similarities.SimilarityBase;
 import org.apache.lucene.store.FSDirectory;
 
+import edu.unh.cs.Assignment2.ranking.Documentresult;
+
 public class LanguageModel_BL<searcher> {
 
 	final private String INDEX_DIRECTORY = "index";
@@ -43,7 +49,7 @@ public class LanguageModel_BL<searcher> {
 	private IndexSearcher searcher = null;
 	private int numdocs = 100;
 	private ArrayList<String> queryPageList;
-	private HashMap<String, ArrayList<DocumentResult>> queryResults;
+	private HashMap<String, ArrayList<Documentresult>> queryResults;
 
 
 	public LanguageModel_BL(ArrayList<String> pl, int n) throws ParseException, IOException {
@@ -70,11 +76,11 @@ public class LanguageModel_BL<searcher> {
 		searcher.setSimilarity(bl_sim);
 	}
 
-	public HashMap<String, ArrayList<DocumentResult>> getReulst() {
+	public HashMap<String, ArrayList<Documentresult>> getReulst() {
 		queryResults = new HashMap<>();
 
 		for (String pageQuery : queryPageList) {
-			ArrayList<DocumentResult> rankedDocs = new ArrayList<DocumentResult>();
+			ArrayList<Documentresult> rankedDocs = new ArrayList<Documentresult>();
 			HashMap<Integer, Float> result_map = getRankedDocuments(pageQuery);
 
 			int rankCount = 1;
@@ -82,7 +88,7 @@ public class LanguageModel_BL<searcher> {
 				int docId = entry.getKey();
 				Float score = entry.getValue();
 
-				DocumentResult docResult = new DocumentResult(docId, score);
+				Documentresult docResult = new Documentresult(docId, score);
 				docResult.setRank(rankCount);
 				rankCount++;
 
@@ -100,7 +106,7 @@ public class LanguageModel_BL<searcher> {
 		queryResults = new HashMap<>();
 
 		for (String pageQuery : queryPageList) {
-			ArrayList<DocumentResult> rankedDocs = new ArrayList<DocumentResult>();
+			ArrayList<Documentresult> rankedDocs = new ArrayList<Documentresult>();
 			HashMap<Integer, Float> result_map = getRankedDocuments(pageQuery);
 
 			int rankCount = 1;
@@ -108,7 +114,7 @@ public class LanguageModel_BL<searcher> {
 				int docId = entry.getKey();
 				Float score = entry.getValue();
 
-				DocumentResult docResult = new DocumentResult(docId, score);
+				Documentresult docResult = new Documentresult(docId, score);
 				docResult.setRank(rankCount);
 				rankCount++;
 
@@ -119,11 +125,11 @@ public class LanguageModel_BL<searcher> {
 		}
 
 		FileWriter runfileWriter = new FileWriter(new File(runfile));
-		for (Map.Entry<String, ArrayList<DocumentResult>> results : queryResults.entrySet()) {
+		for (Map.Entry<String, ArrayList<Documentresult>> results : queryResults.entrySet()) {
 			String query = results.getKey();
-			ArrayList<DocumentResult> list = results.getValue();
+			ArrayList<Documentresult> list = results.getValue();
 			for (int i = 0; i < list.size(); i++) {
-				DocumentResult dr = list.get(i);
+				Documentresult dr = list.get(i);
 				runfileWriter.write(query.replace(" ", "-") + " Q0 " + dr.getId() + " " + dr.getRank() + " "
 						+ dr.getScore() + " team1-LM_BL\n");
 			}
@@ -382,6 +388,8 @@ public class LanguageModel_BL<searcher> {
 
 	}
 
-	public ArrayList<DocumentResult> getResultsForQuery(String query) {
+	public ArrayList<Documentresult> getResultsForQuery(String query) {
 		return this.queryResults.get(query);
 	}
+
+}
